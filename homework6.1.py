@@ -1,4 +1,5 @@
 import string
+
 example = input("Enter your example: ")
 example = example.strip()
 start, end = example.split('-')

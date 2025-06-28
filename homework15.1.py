@@ -17,15 +17,33 @@ class Rectangle:
         if not isinstance(other, Rectangle):
             return NotImplemented
         new_square = self.get_square() + other.get_square()
-        side = math.sqrt(new_square)
-        return Rectangle(round(side), math.ceil(new_square / round(side)))
+        for w in range(1, int(math.sqrt(new_square)) + 1):
+            if new_square % w == 0:
+                h = new_square // w
+                return Rectangle(w, h)
+        return Rectangle(1, new_square)
 
     def __mul__(self, n):
         if not isinstance(n, (int, float)):
             return NotImplemented
-        new_square = self.get_square() * n
-        side = math.sqrt(new_square)
-        return Rectangle(round(side), math.ceil(new_square / round(side)))
+        new_square = int(self.get_square() * n)
+        for w in range(1, int(math.sqrt(new_square)) + 1):
+            if new_square % w == 0:
+                h = new_square // w
+                return Rectangle(w, h)
+        return Rectangle(1, new_square)
 
-    def __str__(self):
-        return f"Rectangle({self.width}, {self.height})"
+
+r1 = Rectangle(2, 4)
+r2 = Rectangle(3, 6)
+assert r1.get_square() == 8, 'Test1'
+assert r2.get_square() == 18, 'Test2'
+
+r3 = r1 + r2
+assert r3.get_square() == 26, 'Test3'
+
+r4 = r1 * 4
+assert r4.get_square() == 32, 'Test4'
+
+assert Rectangle(3, 6) == Rectangle(2, 9), 'Test5'
+print("OK")
